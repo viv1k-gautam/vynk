@@ -5,6 +5,7 @@ import { FaAmazon } from 'react-icons/fa';
 
 
 const Create = () => {
+
   return (
 
        <div className="min-h-screen bg-[#0f172a] text-white p-6 md:p-10">

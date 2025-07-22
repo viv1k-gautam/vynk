@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
+
 // import { GoogleLogin } from '@react-oauth/google';
 function Login() {
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ function Login() {
       else{
         setData({ email: "", password: "" }); 
           toast.success("Login successful");
-          navigate("/create")
+          localStorage.setItem("token", res.data.token);
+          navigate("/welcome");
 
         }
       }
