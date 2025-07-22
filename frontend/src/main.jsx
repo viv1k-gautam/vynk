@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId='735330514847-fc7vgtn81rre8vsvppl8hdg61ggtgmq4.apps.googleusercontent.com'>
+    <GoogleOAuthProvider clientId='import.meta.env.VITE_GOOGLE_CLIENT_ID'>
    <BrowserRouter>
    <App/>
    </BrowserRouter>

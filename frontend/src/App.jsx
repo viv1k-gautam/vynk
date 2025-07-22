@@ -1,11 +1,15 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Register from './pages/Register'
-import Watching from './pages/Watching'
+import Join from './pages/Join'
 import Create from './pages/Create'
+import Welcome from './pages/Welcome';
 import {Toaster} from 'react-hot-toast'
+import ProtectedRoute from './components/ProtectedRoute'
+import ForceLowercase from "./components/ForceLowercase";
+import { UserContextProvider } from '../context/userContext' 
 
 import axios from 'axios'
 
@@ -18,20 +22,36 @@ axios.defaults.withCredentials=true;
 const App = () => {
   return (
   <>
-
+ 
+ <UserContextProvider>
+    
+<ForceLowercase />
       <Toaster position='top-center' toastOptions={{duration: 2000}}/>
      
      <Routes>
+       
 
 
       <Route path='/' element={<Home />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />}/>
-       <Route path='/watching' element={<Watching />}/>
-      <Route path='/create' element={<Create />}/>
+       <Route path='/join' element={<Join />}/>
+
+      <Route path='/welcome' element={
+       <ProtectedRoute>
+        <Welcome />
+</ProtectedRoute>
+        } />
+      <Route path='/create' element={
+        <ProtectedRoute>
+          <Create />
+          </ProtectedRoute>
+        }/>
        
       
      </Routes>
+     
+       </UserContextProvider>
       
     </>
   )

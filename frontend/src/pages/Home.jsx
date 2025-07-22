@@ -13,7 +13,7 @@ const Home = () => {
             
             <a href="#">Profile</a>
             <a className='text-blue-200' href='/login'>Login</a>
-            <a className='px-3 py-2 bg-amber-300 rounded-lg' href="">Sign up</a>
+            <a className='px-3 py-2 bg-amber-300 rounded-lg' href="/register">Sign up</a>
 
         </div>
     
@@ -97,7 +97,15 @@ const Home = () => {
     <h1 className='text-center mt-10 font-bold text-3xl'>Experience Seamless Synchronized Streaming</h1>
     <p className='text-center mt-3'>Our advanced technology ensures everyone stays in perfect sync, down to the <br /> millisecond.</p>
 </div>
+ <footer> 
+    <div className='w-full h-20 bg-zinc-700 flex justify-center items-center text-white'>
+      <p className='text-sm'>© 2024 Vynk. All rights reserved.</p>
     </div>
+ </footer>
+
+    </div>
+
+    
   )
 }
 

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-// import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 
 function Register() {
  const navigate = useNavigate();
@@ -31,7 +31,7 @@ function Register() {
       else {
         setData({})
         toast.success("Registration successful");
-        navigate("/create");
+        navigate("/welcome");
       }
     } catch (error) { 
       console.log(error);
@@ -62,14 +62,17 @@ function Register() {
                </form>
              
 
-                              {/* <GoogleLogin
+
+
+<GoogleLogin
   onSuccess={credentialResponse => {
-    console.log(credentialResponse); // or send to backend
+    console.log(credentialResponse);
   }}
   onError={() => {
     console.log('Google Login Failed');
   }}
-/> */}
+/>
+
 
                <p className="text-xs text-zinc-400 mt-7 w-3/4  mx-auto text-center">By continuing, you agree to Pinterest's Terms of Service and acknowledge that you've read our Privacy Policy. Notice at collection.</p>
 
