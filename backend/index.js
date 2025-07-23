@@ -27,6 +27,14 @@ app.get('/logout', (req, res) => {
   res.status(200).json({ message: 'Logout successful' });   
 });
 
+app.get('/profile', (req, res) => {
+  if(req.session.use){
+    res.json(req.session.user);
+  }else{
+    res.status(401).json({ error: 'not logged in' });
+  }
+});
+
 
 const port =process.env.PORT||8000;
 app.listen(port, () => {

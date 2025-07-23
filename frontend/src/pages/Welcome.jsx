@@ -3,12 +3,9 @@ import { useContext } from 'react'
 import { UserContext } from '../../context/userContext'
 import LogoutButton from '../components/LogoutButton'
 const Welcome = () => {
-  const { user } = React.useContext(UserContext);
-  const profile = () => {
-    const loged = document.getElementById('loged');
-    loged.classList.toggle('hidden');
-    
-  };
+
+  const { user } = useContext(UserContext)
+
  
   return (
     <div>
@@ -20,11 +17,13 @@ const Welcome = () => {
         </div>
         <div className='flex gap-10 items-center'>
             
-            <a href="#">Profile</a>
+          {/* Welcome Message */}
+      <div className=" text-lg font-medium text-white  ">
+        {!!user && <h2>Welcome, {user.name}!</h2>}
+      </div>
             
             
-                  {!!user && <h2>Welcome, {user.name}!</h2>}
-            <a className='px-3 py-2 w-10 h-10 bg-amber-300 rounded-full ' onClick={profile} href="">
+            <a className='px-3 py-2 w-10 h-10 bg-amber-300 rounded-full ' href="">
               <img className='h-8 w-8' src="./public/profile.png" alt="Profile" />
           
             </a>
@@ -34,8 +33,13 @@ const Welcome = () => {
     
       </div>
       </nav>
+
+     
       
       <div className='flex items-center justify-center h-screen bg-gradient-to-r from-amber-200 to-amber-400'>
+
+       
+
         
 {/* Create Room Card */}
 
