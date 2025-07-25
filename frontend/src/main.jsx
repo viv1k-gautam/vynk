@@ -7,11 +7,11 @@ import{GoogleOAuthProvider} from '@react-oauth/google'
 import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  //<StrictMode>
     <GoogleOAuthProvider clientId='import.meta.env.VITE_GOOGLE_CLIENT_ID'>
    <BrowserRouter>
    <App/>
    </BrowserRouter>
    </GoogleOAuthProvider>
-  </StrictMode>,
+  //</StrictMode>,
 )

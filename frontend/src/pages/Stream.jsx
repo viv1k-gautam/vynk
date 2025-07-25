@@ -9,28 +9,57 @@ import { useLocation } from 'react-router-dom';
 import { useEffect   } from 'react';  
 import YoutubePlayer from "../components/youtube/YoutubePlayer";
 import { extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
-
+// import GetRandomCode from '../components/GetRandomCode';
 const Stream = () => {
   const location = useLocation();
+
+
+
   const { name, url } = location.state || {};
+  
   const [roomCode, setRoomCode] = useState('');
+
+  const[videoId,setVideoId] =useState('');
+
+  
 
 
   useEffect(() => {
     if(url) {
-     const videoId = extractYoutubeVideoID(url);
-      setRoomCode(videoId);
+     const id = extractYoutubeVideoID(url);
+      setVideoId(id);
     }
+
+    
+  
+
+const fetchRoomCode =async () =>{
+    try{
+        const res =await fetch('http://localhost:8000/stream');
+        const data =await res.json();
+        setRoomCode(data.roomCode);
+    }catch(err){
+        console.error("Error fetching",err);
+
+    }
+
+
+}
+
+fetchRoomCode();
+
   }, [url]);
 
-      
-   const code = 65464;
+    //  const code = GetRandomCode() || 'ABC123'; // Default code if generateRoomCode fails
+
+  
+
    const[micOn,setMicOn] = useState(true);
     const[videoOn,setVideoOn] = useState(true);
 
     const copy =(e) =>{
         e.preventDefault();
-        navigator.clipboard.writeText(code);
+        navigator.clipboard.writeText(roomCode);
         toast('✅ Room code copied')
     };
 
@@ -43,8 +72,8 @@ const Stream = () => {
     };
  
 
-                                                                                       
-
+    //rome code
+                                                                 
 
   return (
        <div className='bg-zinc-800 h-full w-full flex flex-col items-center justify-center'> 
@@ -58,7 +87,7 @@ const Stream = () => {
             <div className='flex flex-col '>
             <h1>{name || 'Room name' }</h1>
             <p className='text-zinc-400'>Room Code :
-                <a href="#" > {code}</a> 
+                <a href="#" > {roomCode || "failed"}</a> 
                 <FaRegClone className='inline ml-2 mb-2 
                 cursor-pointer text-blue-400' onClick={copy} />
             </p>
@@ -89,12 +118,12 @@ const Stream = () => {
             {/* Video Player Section */}
 
            <iframe width="560" height="315" 
-         src={`https://www.youtube.com/embed/${roomCode}?autoplay=1`}
+         src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
             title="YouTube video player" 
             className='w-full h-full' 
             frameborder="0" 
             allow="accelerometer; 
-            autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
+             clipboard-write; encrypted-media; gyroscope;"
              referrerpolicy="strict-origin-when-cross-origin" 
              allowFullScreen></iframe>
            

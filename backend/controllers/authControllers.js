@@ -1,10 +1,13 @@
 
 const User = require('../models/user');
+const RoomCodeModel = require('../models/roomCode');
 
 const {hashedPassword} = require('../helpers/auth');
 const {comparePassword} = require('../helpers/auth');
 const {get} = require('mongoose')
 const jwt = require('jsonwebtoken');
+const {generateRoomCode} =require('../utils/codeGenerator')
+
 
 
 
@@ -109,10 +112,36 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };
 
+
+const roomCodeget = async (req, res) => {
+  try{
+    let code;
+    let exists = true;
+
+    while (exists) {
+      code = generateRoomCode()
+      const existingCode = await RoomCodeModel.findOne({code});
+      if (!existingCode) {
+        exists = false;
+      } 
+    }
+    await RoomCodeModel.create({code});
+   
+
+      res.json({ roomCode: code });
+
+  } catch (error) {
+    console.error("Error generating room code:", error);
+    res.status(500).json({ error: "Failed to generate room code" });
+  
+  }
+};
+
 module.exports = {
   test,
   registerUser,
   loginUser ,
   getProfile,
-  logoutUser
+  logoutUser,
+  roomCodeget
 };

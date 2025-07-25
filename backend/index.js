@@ -5,6 +5,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 
+
 const app = express() ;
 
 mongoose.connect(process.env.MONGO_URI)
@@ -34,6 +35,8 @@ app.get('/profile', (req, res) => {
     res.status(401).json({ error: 'not logged in' });
   }
 });
+
+// app.use('/room', require('./routes/room'));
 
 
 const port =process.env.PORT||8000;

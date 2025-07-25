@@ -1,5 +1,3 @@
-// src/components/youtube/YoutubeUtils.jsx
-
 export const isValidYoutubeURL = (url) => {
   try {
     const parsed = new URL(url);

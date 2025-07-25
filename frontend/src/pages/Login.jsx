@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-// import { GoogleLogin } from '@react-oauth/google';
 function Login() {
   const navigate = useNavigate();
   const [data, setData] = useState({
