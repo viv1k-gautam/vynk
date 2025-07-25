@@ -7,6 +7,7 @@ import Join from './pages/Join'
 import Create from './pages/Create'
 import Welcome from './pages/Welcome';
 import Stream from './pages/Stream';
+import Space from './pages/Space';
 import {Toaster} from 'react-hot-toast'
 import ProtectedRoute from './components/ProtectedRoute'
 import ForceLowercase from "./components/ForceLowercase";
@@ -37,6 +38,12 @@ const App = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />}/>
        <Route path='/join' element={<Join />}/>
+       
+      <Route path='/space' element={
+        <ProtectedRoute>
+          <Space />
+        </ProtectedRoute>
+      } />
 
       <Route path='/stream' element={
         <ProtectedRoute> 

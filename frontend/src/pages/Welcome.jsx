@@ -50,7 +50,7 @@ const Welcome = () => {
 
         
             <img  src="./icons/createRoom.png "
-            className='w-12 h-12' alt="Create Room" />
+            className='w-12 h-12 drop-shadow-2xl' alt="Create Room" />
 
           <a className='border-amber-50 h-10 w-full block text-center
            bg-orange-300 mt-90 rounded-r-3xl rounded-l-3xl 

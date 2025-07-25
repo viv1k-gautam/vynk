@@ -2,9 +2,30 @@ import React from 'react'
 import { SiNetflix } from 'react-icons/si';
 import { FaYoutube } from 'react-icons/fa';
 import { FaAmazon } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { isValidYoutubeURL,extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
+
 
 
 const Create = () => {
+  const  [partyName, setPartyName] = useState('');
+  const [ videoUrl, setVideoUrl] = useState('');
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+
+    if(!videoUrl) return toast.error('Please enter a video URL ');
+
+    navigate('/stream', {
+      state: {
+        name: partyName,
+        url: videoUrl,
+      }
+    });
+  };
+
 
   return (
 
@@ -14,6 +35,10 @@ const Create = () => {
                 <h2 className="text-lg font-semibold mb-4">Party Details</h2>
             <div className="space-y-4">
               <input
+              value={partyName
+              }
+                onChange={(e) => setPartyName(e.target.value)
+              }
                 type="text"
                 placeholder="Give your watch party a name"
                 className="w-full bg-[#334155] px-4 py-2 rounded text-white placeholder-gray-400 outline-none"
@@ -34,9 +59,13 @@ const Create = () => {
                 <FaAmazon size={20} /> Prime
               </button>
 
+
+
             </div>
               <input
-              type="text"
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
+           
               placeholder="Paste URL or enter content ID"
               className="w-full bg-[#334155] px-4 py-2 rounded text-white placeholder-gray-400 outline-none"
             />
@@ -72,7 +101,8 @@ const Create = () => {
               <li>Host controls</li>
             </ul>
           </div>
-           <button className="w-full bg-indigo-500 hover:bg-indigo-600 py-2 rounded font-semibold">
+           <button onClick={handleStart} 
+           className="w-full bg-indigo-500 hover:bg-indigo-600 py-2 rounded font-semibold">
             Start Watch Party
           </button>
           </div>

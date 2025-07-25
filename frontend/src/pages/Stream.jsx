@@ -1,30 +1,66 @@
 import React from 'react'
+import { useState } from 'react';
 import { FaYoutube } from 'react-icons/fa';
-import {FaUserPlus  } from 'react-icons/fa';
-import {FaLaughSquint} from 'react-icons/fa';
-import toast, { Toaster } from 'react-hot-toast';  
+import {FaUserPlus } from 'react-icons/fa';
+import {FaRegLaughSquint ,FaRegClone} from 'react-icons/fa';
+import { FaMicrophone, FaVideo } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
+import { useEffect   } from 'react';  
+import YoutubePlayer from "../components/youtube/YoutubePlayer";
+import { extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
 
 const Stream = () => {
+  const location = useLocation();
+  const { name, url } = location.state || {};
+  const [roomCode, setRoomCode] = useState('');
+
+
+  useEffect(() => {
+    if(url) {
+     const videoId = extractYoutubeVideoID(url);
+      setRoomCode(videoId);
+    }
+  }, [url]);
+
+      
+   const code = 65464;
+   const[micOn,setMicOn] = useState(true);
+    const[videoOn,setVideoOn] = useState(true);
 
     const copy =(e) =>{
         e.preventDefault();
         navigator.clipboard.writeText(code);
         toast('✅ Room code copied')
-    }
- const code = 65464;
+    };
+
+    const toggleMic = () => {
+        setMicOn(!micOn);
+    };
+
+    const toggleVideo = () => {
+        setVideoOn(!videoOn);
+    };
+ 
+
+                                                                                       
+
 
   return (
-    <div className='mt-12 mx-20 rounded-3xl 
-    bg-gradient-to-r from-blue-200 to-pink-400 
-    shadow-2xl border border-white h-auto overflow-auto'>
+       <div className='bg-zinc-800 h-full w-full flex flex-col items-center justify-center'> 
+    <div className='mt-12  mx-12 rounded-3xl 
+    bg-zinc-800
+    shadow-2xl border border-white h-auto overflow-auto '>
       <nav>
         <div className='w-full px-10 py-3 flex justify-between text-white bg-zinc-700 items-center'>
           <div className='flex items-center gap-2'> 
             <img className='h-12 w-12' src="/Frame.png" alt="Logo" />
             <div className='flex flex-col '>
-            <p>Yt video name</p>
+            <h1>{name || 'Room name' }</h1>
             <p className='text-zinc-400'>Room Code :
-                <a href="#" onClick={copy}>{code}</a>
+                <a href="#" > {code}</a> 
+                <FaRegClone className='inline ml-2 mb-2 
+                cursor-pointer text-blue-400' onClick={copy} />
             </p>
             </div>
           </div>  
@@ -33,7 +69,7 @@ const Stream = () => {
               text-red-600 font-medium py-1 px-2
               rounded-lg flex items-center 
               justify-center gap-2">
-                          <FaYoutube size={30} /> 
+                          <FaYoutube size={30} /> Youtube
                         </button>
                         
                         <button className='bg-blue-400 w-30 flex items-center
@@ -49,18 +85,38 @@ const Stream = () => {
       <div className='w-full h-full flex'>
          
         
-        <div className='w-250'>
-            
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/xVU2UDaFOfE?si=9k3fXn3kAEZB9A_Y" 
+        <div className='  w-250 '>
+            {/* Video Player Section */}
+
+           <iframe width="560" height="315" 
+         src={`https://www.youtube.com/embed/${roomCode}?autoplay=1`}
             title="YouTube video player" 
             className='w-full h-full' 
-            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            frameborder="0" 
+            allow="accelerometer; 
+            autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
              referrerpolicy="strict-origin-when-cross-origin" 
-             allowfullscreen></iframe>
+             allowFullScreen></iframe>
+           
+
+            
         </div>
         <div className='bg-zinc-700 h-145 w-100 border-l border-t border-zinc-600'>
             <div className=' mt-2 h-10 text-white text-center'>
-               <p className=' font-semibold text-xl'> Watch Party : 5 </p>
+
+               <p className=' font-semibold text-xl flex justify-between mx-7'> Watch Party : 4 
+
+                <button className='text-zinc-400 '> 
+
+                <FaMicrophone  onClick={toggleMic}
+                  className={`inline mx-2  
+                  cursor-pointer ${micOn ? 'text-white' : 'text-red-600'}`}/> 
+                <FaVideo  onClick={toggleVideo}
+                className={`inline mx-2 
+                cursor-pointer ${videoOn ? 'text-white ' : 'text-red-600'}`}/>
+
+                </button>
+               </p>
             </div>
              {/* card */}
             <div className=' flex flex-wrap h-59 w-99 overflow-auto '>
@@ -75,7 +131,7 @@ const Stream = () => {
 
             <div className=' h-58 flex border-t border-zinc-500'>
                 <div className='
-                 overflow-y-auto mb-2 text-sm space-y-1'>
+                 overflow-y-auto mb-2 m-5 text-sm space-y-1 text-white'>
                       <p>
                 <span className="font-bold text-pink-400">Emma</span>: OMG that
                 plot twist! 😲
@@ -100,7 +156,7 @@ const Stream = () => {
                   />
                   <button className='bg-white h-10 w-10 rounded-r-3xl
                   flex justify-center items-center text-zinc-600'>
-                  <FaLaughSquint size={20}/>
+                  <FaRegLaughSquint size={20}/>
                   </button>
                   
                   
@@ -112,6 +168,8 @@ const Stream = () => {
 
 
       </div>
+    </div>
+   
     </div>
   )
 }
