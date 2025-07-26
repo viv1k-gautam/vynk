@@ -2,22 +2,24 @@ import React from 'react'
 import { useState } from 'react';
 import { FaYoutube } from 'react-icons/fa';
 import {FaUserPlus } from 'react-icons/fa';
-import {FaRegLaughSquint ,FaRegClone} from 'react-icons/fa';
-import { FaMicrophone, FaVideo } from 'react-icons/fa';
+import {FaRegLaughSquint ,FaRegClone,FaDoorOpen } from 'react-icons/fa';
+import { FaMicrophone, FaVideo, } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import { useEffect   } from 'react';  
 import YoutubePlayer from "../components/youtube/YoutubePlayer";
 import { extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
+import { useNavigate } from 'react-router-dom';
+
 // import GetRandomCode from '../components/GetRandomCode';
 const Stream = () => {
   const location = useLocation();
+  const navigate = useNavigate()
 
 
-
-  const { name, url } = location.state || {};
+  const { name, url ,roomCode:initialCode} = location.state || {};
   
-  const [roomCode, setRoomCode] = useState('');
+  const [roomCode, setRoomCode] = useState(initialCode ||"");
 
   const[videoId,setVideoId] =useState('');
 
@@ -33,20 +35,20 @@ const Stream = () => {
     
   
 
-const fetchRoomCode =async () =>{
-    try{
-        const res =await fetch('http://localhost:8000/stream');
-        const data =await res.json();
-        setRoomCode(data.roomCode);
-    }catch(err){
-        console.error("Error fetching",err);
+// const fetchRoomCode =async () =>{
+//     try{
+//         const res =await fetch('http://localhost:8000/stream');
+//         const data =await res.json();
+//         setRoomCode(data.roomCode);
+//     }catch(err){
+//         console.error("Error fetching",err);
 
-    }
+//     }
 
 
-}
+// }
 
-fetchRoomCode();
+// fetchRoomCode();
 
   }, [url]);
 
@@ -73,7 +75,25 @@ fetchRoomCode();
  
 
     //rome code
-                                                                 
+                  
+    const handleExit = async () => {
+  try {
+    const res = await fetch("http://localhost:8000/exit", {
+      method: "POST",
+      credentials: "include",
+    });
+    if (res.ok) {
+      navigate("/welcome");
+    } else {
+      console.error("Failed to exit room");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+
 
   return (
        <div className='bg-zinc-800 h-full w-full flex flex-col items-center justify-center'> 
@@ -106,6 +126,15 @@ fetchRoomCode();
                             <FaUserPlus size={25}/>
                             Invite
                         </button>
+
+                         <button className='bg-red-500 w-30 flex items-center
+                         justify-between px-7 rounded-xl  font-semibold' onClick={handleExit} >
+                            <FaDoorOpen size={25}/>
+                            Exit
+                        </button>
+                        
+
+
                         </div>
                         
           </div>  
@@ -122,7 +151,7 @@ fetchRoomCode();
             title="YouTube video player" 
             className='w-full h-full' 
             frameborder="0" 
-            allow="accelerometer; 
+            allow="accelerometer; autoplay;
              clipboard-write; encrypted-media; gyroscope;"
              referrerpolicy="strict-origin-when-cross-origin" 
              allowFullScreen></iframe>

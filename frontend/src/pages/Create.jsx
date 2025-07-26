@@ -15,16 +15,40 @@ const Create = () => {
   const [ videoUrl, setVideoUrl] = useState('');
   const navigate = useNavigate();
 
-  const handleStart = () => {
+  const handleStart = async () => {
 
     if(!videoUrl) return toast.error('Please enter a video URL ');
 
-    navigate('/stream', {
-      state: {
-        name: partyName,
-        url: videoUrl,
+    try {
+      const res =await fetch('http://localhost:8000/create',{
+       
+        credentials:'include'
+      });
+
+
+      const data =await res.json();
+      if(data.success){
+        navigate('/stream',{
+          state:{
+            name:partyName,
+            url:videoUrl,
+            roomCode:data.code,
+          },
+        })
+      }else{
+        toast.error('failed to create');
       }
-    });
+    }catch(err){
+      console.error(err);
+      toast.error('server error')
+    }
+
+    // navigate('/stream', {
+    //   state: {
+    //     name: partyName,
+    //     url: videoUrl,
+    //   }
+    // });
   };
 
 

@@ -107,26 +107,59 @@ const loginUser = async (req, res) => {
       }
 
     //logout endpoint
-const logoutUser = (req, res) => {
+const logoutUser = async (req, res) => {
+// try{
+//   const token =req.cookies.token;
+//   if(!token)
+//     return res.status(400).json({message:'no found token'});
+
+//   const decoded =jwt.verify(token,process.env.JWT_SECRET);
+//   const userId =decoded.id;
+
+// await RoomCodeModel.deleteMany({owner:userId});
+
+//   res.clearCookie("token")
+//   return res.status(200).json({message:"logout successful"})
+// }catch(err){
+//   console.error(err);
+//   return res.status(500).json({message:"server error"})
+// }
+
+
   res.clearCookie('token'); // Clear the token cookie
   res.status(200).json({ message: 'Logout successful' });
 };
 
-
+//room code
 const roomCodeget = async (req, res) => {
   try{
+    //user id token
+   const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
     let code;
     let exists = true;
 
     while (exists) {
-      code = generateRoomCode()
+      code = generateRoomCode();
+
+
+      // res.json({success:true,code});
+
       const existingCode = await RoomCodeModel.findOne({code});
       if (!existingCode) {
         exists = false;
       } 
     }
-    await RoomCodeModel.create({code});
+    await RoomCodeModel.create({
+      code,
+      owner:userId
+    });
    
+    
+res.json({success:true,code});
 
       res.json({ roomCode: code });
 
@@ -137,11 +170,31 @@ const roomCodeget = async (req, res) => {
   }
 };
 
+
+// In authController.js
+const exitRoom = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+    await RoomCodeModel.deleteMany({ owner: userId });
+    return res.status(200).json({ message: "Room deleted and exited" });
+  } catch (error) {
+    console.error("Exit room error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 module.exports = {
   test,
   registerUser,
   loginUser ,
   getProfile,
   logoutUser,
-  roomCodeget
+  roomCodeget,
+  exitRoom
 };

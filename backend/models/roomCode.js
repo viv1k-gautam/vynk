@@ -2,15 +2,21 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const roomCodeSchema = new Schema({
+   name :String,
+   url :String,
   code: { type: String,
      required: true,
       unique: true },
 
+owner: { type: mongoose.Schema.Types.ObjectId, 
+   ref: 'User', 
+   required: true },
+
   createdAt: { type: Date,
      default: Date.now,
-      expires: '1m' } // Code expires after 1 min
+      }
 });
-roomCodeSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 });
+
 
 const RoomCodeModel = mongoose.model('RoomCode', roomCodeSchema);
 module.exports = RoomCodeModel;
