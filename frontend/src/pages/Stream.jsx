@@ -79,7 +79,7 @@ return()=>{
     const copy =(e) =>{
         e.preventDefault();
         navigator.clipboard.writeText(roomCode);
-        toast('✅ Room code copied')
+        toast.success('Room code copied')
     };
 
     const toggleMic = () => {

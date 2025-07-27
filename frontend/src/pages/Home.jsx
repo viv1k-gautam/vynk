@@ -102,7 +102,7 @@ const Home = () => {
       <p className='text-sm'>© 2024 Vynk. All rights reserved.</p>
     </div>
  </footer>
-
+ 
     </div>
 
     

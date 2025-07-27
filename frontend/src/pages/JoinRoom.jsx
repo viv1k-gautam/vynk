@@ -2,22 +2,36 @@ import React from 'react'
 import { FaDoorOpen } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import  { useState } from 'react';
-
+import axios from 'axios';
+import toast from 'react-hot-toast';
 const JoinRoom = () => {
 
   const [code, setCode] = useState('');
   const navigate = useNavigate();
 
-    const handleJoin = () => {
+    const handleJoin = async() => {
     const trimmedCode = code.trim().toUpperCase();
 
     if (!trimmedCode || trimmedCode.length < 6) {
-      alert("Please enter a valid room code");
+      toast.error("Please enter a valid room code")
       return;
     }
+    try{
+      const res =await axios.post(`${import.meta.env.VITE_API_URL}/check-room`,{
+        roomCode :trimmedCode
+      })
+      if(res.data.exists){
+            navigate('/stream', { state: { roomCode: trimmedCode } });
+      } else{
+         toast.error("Room does not exist!");
+      }
+    }catch(err){
+      console.error(err)
+      toast.error("Server error, please try again later")
+    }
 
-    // Navigate to stream page and pass roomCode
-    navigate('/stream', { state: { roomCode: trimmedCode } });
+    // // Navigate to stream page and pass roomCode
+    // navigate('/stream', { state: { roomCode: trimmedCode } });
   };
 
 

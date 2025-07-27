@@ -3,7 +3,7 @@ require('dotenv').config();
 const router = express.Router()
 const cors = require('cors');
 const { test, registerUser, loginUser, getProfile,
-    logoutUser,roomCodeget,exitRoom } = require('../controllers/authControllers')
+    logoutUser,roomCodeget,exitRoom ,checkRoomCode} = require('../controllers/authControllers')
 
 
 
@@ -23,6 +23,7 @@ router.get('/profile',getProfile)
 router.get('/logout' , logoutUser)
 router.get('/create' ,roomCodeget)
 router.post('/exit', exitRoom)
+router.post('/check-room',checkRoomCode)
 
 
 

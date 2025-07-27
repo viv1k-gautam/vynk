@@ -189,6 +189,31 @@ const exitRoom = async (req, res) => {
 };
 
 
+//check room
+
+const checkRoomCode =async(req,res) =>{
+  try{
+    const{roomCode} =req.body;
+
+    if(!roomCode){
+      return res.status(400).json({error:"room code is req"});
+
+    }
+    const room =await RoomCodeModel.findOne({code:roomCode});
+
+    if(!room){
+      return res.json({exists:false});
+
+    }
+    return res.json({exists:true,room});
+  }
+  catch(error){
+    console.error("check room code error",error);
+    return res.status(500).json({error:'server error'})
+  }
+}
+
+
 module.exports = {
   test,
   registerUser,
@@ -196,5 +221,6 @@ module.exports = {
   getProfile,
   logoutUser,
   roomCodeget,
-  exitRoom
+  exitRoom,
+  checkRoomCode
 };
