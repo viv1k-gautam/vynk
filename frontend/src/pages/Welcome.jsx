@@ -72,7 +72,7 @@ const Welcome = () => {
 <a className=' border-amber-50  w-full block text-center
            bg-orange-300 mt-90 rounded-r-3xl rounded-l-3xl 
              hover:bg-orange-400 transition-all duration-300 
-             hover:scale-105 text-white ' href='/join'>Join Room</a>
+             hover:scale-105 text-white ' href='/join-room'>Join Room</a>
                   
                   
                 </div>

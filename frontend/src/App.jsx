@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Register from './pages/Register'
-import Join from './pages/Join'
 import Create from './pages/Create'
 import Welcome from './pages/Welcome';
 import Stream from './pages/Stream';
@@ -14,6 +13,7 @@ import ForceLowercase from "./components/ForceLowercase";
 import { UserContextProvider } from '../context/userContext' 
 
 import axios from 'axios'
+import JoinRoom from './pages/JoinRoom';
 
 
 
@@ -37,7 +37,7 @@ const App = () => {
       <Route path='/' element={<Home />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />}/>
-       <Route path='/join' element={<Join />}/>
+       <Route path='/join-room' element={<JoinRoom />}/>
        
       <Route path='/space' element={
         <ProtectedRoute>

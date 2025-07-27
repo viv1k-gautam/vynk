@@ -1,8 +1,11 @@
 import React from 'react'
+import { useContext } from 'react'
+import { UserContext } from '../../context/userContext'
+
 import { useState } from 'react';
 import { FaYoutube } from 'react-icons/fa';
 import {FaUserPlus } from 'react-icons/fa';
-import {FaRegLaughSquint ,FaRegClone,FaDoorOpen } from 'react-icons/fa';
+import {FaRegLaughSquint ,FaRegClone,FaDoorOpen,FaRegPaperPlane } from 'react-icons/fa';
 import { FaMicrophone, FaVideo, } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
@@ -11,48 +14,62 @@ import YoutubePlayer from "../components/youtube/YoutubePlayer";
 import { extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
 import { useNavigate } from 'react-router-dom';
 
-// import GetRandomCode from '../components/GetRandomCode';
+import { useRef } from "react";
+
+import EmojiPicker from 'emoji-picker-react'; 
+
+
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8000",{
+  transports:['websocket','polling'],
+}); // backend address
+
 const Stream = () => {
+  const chatEndRef = useRef(null);
+    const { user } = useContext(UserContext)
   const location = useLocation();
   const navigate = useNavigate()
 
 
   const { name, url ,roomCode:initialCode} = location.state || {};
   
-  const [roomCode, setRoomCode] = useState(initialCode ||"");
+  const [roomCode] = useState(initialCode ||"");
 
   const[videoId,setVideoId] =useState('');
+
+  const [message, setMessage] = useState("");
+const [messages, setMessages] = useState([]);
+ const [showEmoji, setShowEmoji] = useState(false);  
+
 
   
 
 
   useEffect(() => {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      
+
     if(url) {
      const id = extractYoutubeVideoID(url);
       setVideoId(id);
-    }
 
+
+    }
+    if(roomCode){
+      socket.emit('join_room',roomCode)
+    }
+    socket.on("receive_message",(data)=>{
+      setMessages((prev) =>[...prev, data]);
+    })
+return()=>{
+  socket.off('receive_message')
+};
     
   
 
-// const fetchRoomCode =async () =>{
-//     try{
-//         const res =await fetch('http://localhost:8000/stream');
-//         const data =await res.json();
-//         setRoomCode(data.roomCode);
-//     }catch(err){
-//         console.error("Error fetching",err);
+  }, [url ,roomCode ,messages]);
 
-//     }
-
-
-// }
-
-// fetchRoomCode();
-
-  }, [url]);
-
-    //  const code = GetRandomCode() || 'ABC123'; // Default code if generateRoomCode fails
 
   
 
@@ -92,8 +109,26 @@ const Stream = () => {
   }
 };
 
+//send message
 
+const sendMessage = () => {
 
+  if (message.trim() !== "") {
+    const data = {
+      room: roomCode,
+      author: user.name,  // later replace with actual username
+      message,
+      time: new Date().toLocaleTimeString(),
+    };
+    socket.emit("send_message", data);
+     // show instantly
+    setMessage("");
+  }
+};
+  const handleEmojiClick = (emojiObject) => {
+    setMessage((prev) => prev + emojiObject.emoji);
+    setShowEmoji(false);
+  };
 
   return (
        <div className='bg-zinc-800 h-full w-full flex flex-col items-center justify-center'> 
@@ -187,35 +222,53 @@ const Stream = () => {
 
             {/*chat*/}
 
-            <div className=' h-58 flex border-t border-zinc-500'>
+            <div className=' h-58  flex border-t border-zinc-500'>
                 <div className='
-                 overflow-y-auto mb-2 m-5 text-sm space-y-1 text-white'>
-                      <p>
-                <span className="font-bold text-pink-400">Emma</span>: OMG that
-                plot twist! 😲
-              </p>
-               <p>
-                <span className="font-bold text-blue-400">James</span>: I knew
-                it! Called it from the beginning 😏
-              </p>
-              <p>
-                <span className="font-bold text-purple-400">Sophia</span>: Same
-                😆
-              </p>
+                 overflow-y-auto mb-2 m-5 text-sm space-y-1 text-white w-full scrollbar-hide' >
+                  {messages.map((msg,index)=>(
+                    <p key={index}>
+                      <span className="font-bold text-pink-400">{msg.author}</span>: {msg.message}
+                    </p>
+                  ))}
+
+                   <div ref={chatEndRef} />
+                      
                  </div>
+
             </div>
 
+  
+
+  
 
        
             <div className='h-15  flex justify-center items-center '>
                 
                 <input className='bg-white w-85 h-10 px-2 outline-none
-                 rounded-l-3xl' type="text" placeholder='Type Your Message' 
+                 rounded-l-3xl' 
+                 type="text" 
+                 placeholder='Type Your Message' 
+                 value={message}
+                 onChange={(e)=>setMessage(e.target.value)}
+                 onKeyDown={(e)=>e.key =='Enter'&& sendMessage()}
                   />
+                  <button className='bg-white h-10 w-10 cursor-pointer
+                  flex justify-center items-center text-zinc-600 hover:text-blue-500' 
+                   onClick={sendMessage}>
+                    <FaRegPaperPlane size={20}/>
+                  </button>
+
                   <button className='bg-white h-10 w-10 rounded-r-3xl
-                  flex justify-center items-center text-zinc-600'>
+                  flex justify-center items-center text-zinc-600 hover:text-yellow-200'
+                  onClick={()=>setShowEmoji(!showEmoji)}
+                 >
                   <FaRegLaughSquint size={20}/>
                   </button>
+                  {showEmoji &&(
+                    <div className='absolute bottom-14 right-0'>
+                       <EmojiPicker onEmojiClick={handleEmojiClick} theme='dark' />
+                       </div>
+                  )}
                   
                   
             </div>
