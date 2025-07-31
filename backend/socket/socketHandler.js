@@ -8,7 +8,7 @@ const socketHandler=(io)=>{
 
         })
 
-        // Agar host room delete kare
+      // Agar host room delete kare
   socket.on('delete-room', (roomCodeget) => {
     io.to(roomCodeget).emit('room-deleted');
     console.log(`Room ${roomCodeget} deleted`);

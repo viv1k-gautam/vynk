@@ -1,15 +1,16 @@
-import React from 'react'
 import { FaDoorOpen } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import  { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 const JoinRoom = () => {
 
-  const [code, setCode] = useState('');
-  const navigate = useNavigate();
+const [code, setCode] = useState('');
 
-    const handleJoin = async() => {
+const navigate = useNavigate();
+
+const handleJoin = async() => {
+
     const trimmedCode = code.trim().toUpperCase();
 
     if (!trimmedCode || trimmedCode.length < 6) {
@@ -21,7 +22,11 @@ const JoinRoom = () => {
         roomCode :trimmedCode
       })
       if(res.data.exists){
-            navigate('/stream', { state: { roomCode: trimmedCode } });
+     
+            navigate('/stream', 
+              { state: { roomCode: trimmedCode , roomName:res.data.room.roomName} ,
+            });
+          
       } else{
          toast.error("Room does not exist!");
       }
@@ -29,9 +34,6 @@ const JoinRoom = () => {
       console.error(err)
       toast.error("Server error, please try again later")
     }
-
-    // // Navigate to stream page and pass roomCode
-    // navigate('/stream', { state: { roomCode: trimmedCode } });
   };
 
 
@@ -64,6 +66,8 @@ const JoinRoom = () => {
            className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-6 rounded transition">
             Join Party
           </button>
+
+    
 
 
         </div>

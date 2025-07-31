@@ -138,6 +138,12 @@ const roomCodeget = async (req, res) => {
     if (!token) return res.status(401).json({ message: "Unauthorized" });
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
+      const { name, url } = req.body;
+
+      if (!name || !url) {
+      return res.status(400).json({ error: "Party name and video URL are required" });
+    }
+
 
     let code;
     let exists = true;
@@ -154,6 +160,8 @@ const roomCodeget = async (req, res) => {
       } 
     }
     await RoomCodeModel.create({
+      name,
+      url,
       code,
       owner:userId
     });

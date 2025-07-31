@@ -21,8 +21,17 @@ const Create = () => {
 
     try {
       const res =await fetch('http://localhost:8000/create',{
+        method:"POST",
+        headers:{
+         "Content-Type":"application/json",
+        },
+        credentials:'include',
+        body:JSON.stringify({
+          name:partyName,
+          url:videoUrl,
+        }),
        
-        credentials:'include'
+      
       });
 
 

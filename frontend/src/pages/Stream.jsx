@@ -10,7 +10,7 @@ import { FaMicrophone, FaVideo, } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import { useEffect   } from 'react';  
-import YoutubePlayer from "../components/youtube/YoutubePlayer";
+import YoutubePlayer from '../components/youtube/YoutubePlayer';
 import { extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,6 +26,9 @@ const socket = io("http://localhost:8000",{
 }); // backend address
 
 const Stream = () => {
+
+
+
   const chatEndRef = useRef(null);
     const { user } = useContext(UserContext)
   const location = useLocation();
@@ -36,6 +39,7 @@ const Stream = () => {
   
   const [roomCode] = useState(initialCode ||"");
 
+
   const[videoId,setVideoId] =useState('');
 
   const [message, setMessage] = useState("");
@@ -44,6 +48,7 @@ const [messages, setMessages] = useState([]);
 
 
   
+// YouTube ka ID
 
 
   useEffect(() => {
@@ -190,6 +195,8 @@ const sendMessage = () => {
              clipboard-write; encrypted-media; gyroscope;"
              referrerpolicy="strict-origin-when-cross-origin" 
              allowFullScreen></iframe>
+{/* 
+              <YoutubePlayer videoId={videoId} isHost={isHost} /> */}
            
 
             

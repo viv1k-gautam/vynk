@@ -21,7 +21,7 @@ router.post('/register',registerUser)
 router.post('/login', loginUser)
 router.get('/profile',getProfile)
 router.get('/logout' , logoutUser)
-router.get('/create' ,roomCodeget)
+router.post('/create' ,roomCodeget)
 router.post('/exit', exitRoom)
 router.post('/check-room',checkRoomCode)
 
