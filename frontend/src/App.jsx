@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Register from './pages/Register'
@@ -17,7 +17,7 @@ import JoinRoom from './pages/JoinRoom';
 
 
 
-axios.defaults.baseURL = 'http://localhost:5173';
+axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
 
 
@@ -26,7 +26,7 @@ const App = () => {
   <>
  
  <UserContextProvider>
-    
+ 
 <ForceLowercase />
       <Toaster position='top-center' toastOptions={{duration: 2000}}/>
      
@@ -45,7 +45,7 @@ const App = () => {
         </ProtectedRoute>
       } />
 
-      <Route path='/stream' element={
+      <Route path="/stream/:code" element={
         <ProtectedRoute> 
           <Stream />
         </ProtectedRoute> 
@@ -64,6 +64,8 @@ const App = () => {
        
       
      </Routes>
+
+
      
        </UserContextProvider>
       

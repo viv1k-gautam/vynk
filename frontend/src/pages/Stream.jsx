@@ -1,135 +1,144 @@
-import React from 'react'
-import { useContext } from 'react'
-import { UserContext } from '../../context/userContext'
-
-import { useState } from 'react';
-import { FaYoutube } from 'react-icons/fa';
-import {FaUserPlus } from 'react-icons/fa';
-import {FaRegLaughSquint ,FaRegClone,FaDoorOpen,FaRegPaperPlane } from 'react-icons/fa';
-import { FaMicrophone, FaVideo, } from 'react-icons/fa';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams,useLocation, useNavigate } from 'react-router-dom';
+import { 
+  FaYoutube, FaUserPlus, FaRegLaughSquint, FaRegClone,
+  FaDoorOpen, FaRegPaperPlane, FaMicrophone, FaVideo 
+} from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
-import { useEffect   } from 'react';  
+import EmojiPicker from 'emoji-picker-react';
+import { UserContext } from '../../context/userContext';
 import YoutubePlayer from '../components/youtube/YoutubePlayer';
 import { extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
-import { useNavigate } from 'react-router-dom';
+import { useChat } from '../hooks/useChat';
 
-import { useRef } from "react";
+import socket from "../utils/socket";
 
-import EmojiPicker from 'emoji-picker-react'; 
-
-
-import io from "socket.io-client";
-
-const socket = io("http://localhost:8000",{
-  transports:['websocket','polling'],
-}); // backend address
 
 const Stream = () => {
-
-
-
-  const chatEndRef = useRef(null);
-    const { user } = useContext(UserContext)
+  const { code } = useParams(); 
+  const { user } = useContext(UserContext);
   const location = useLocation();
-  const navigate = useNavigate()
 
+  const navigate = useNavigate();
 
-  const { name, url ,roomCode:initialCode} = location.state || {};
+  // const { name, url, roomCode: initialCode, isHost } = location.state || {};
+
+  const { state } = location;
+
+const [name, setName] = useState(state?.name || localStorage.getItem("name") || "Room name");
+const [url, setUrl] = useState(state?.url || localStorage.getItem("url") || "");
+const [isHost, setIsHost] = useState(state?.isHost ?? JSON.parse(localStorage.getItem("isHost") || "false"));
+
+const [roomCode] = useState(state?.roomCode || code || localStorage.getItem("roomCode") || "");
+
+  const [videoId, setVideoId] = useState(state?.videoId || '');
+  const [message, setMessage] = useState(''); 
+
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [micOn, setMicOn] = useState(true);
+  const [videoOn, setVideoOn] = useState(true);
+  const { messages, chatEndRef } = useChat(roomCode);
   
-  const [roomCode] = useState(initialCode ||"");
 
 
-  const[videoId,setVideoId] =useState('');
+useEffect(() => {
+  if (state) {
+    if (state.name) localStorage.setItem("name", state.name);
+    if (state.url) localStorage.setItem("url", state.url);
+    if (state.isHost !== undefined) localStorage.setItem("isHost", JSON.stringify(state.isHost));
+    if (state.roomCode) localStorage.setItem("roomCode", state.roomCode);
+  }
+}, [state]);
 
-  const [message, setMessage] = useState("");
-const [messages, setMessages] = useState([]);
- const [showEmoji, setShowEmoji] = useState(false);  
 
 
-  
+
+    useEffect(() => {
+    if (isHost && videoId) {
+       console.log("EMITTING VIDEO ID:", videoId, "TO ROOM:", roomCode);
+      socket.emit("video-url", { room:roomCode, videoId });
+    }
+
+ console.log("STREAM PAGE RENDERED:");
+  console.log("roomCode:", roomCode);
+  console.log("videoId:", videoId);
+  console.log("isHost:", isHost);
+
+  }, [videoId, isHost, roomCode]);
+
+
 // YouTube ka ID
-
-
-  useEffect(() => {
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      
-
-    if(url) {
-     const id = extractYoutubeVideoID(url);
-      setVideoId(id);
-
-
+useEffect(() => {
+     if (url) {
+      const id = extractYoutubeVideoID(url);
+       console.log("Extracted video ID:", id);
+      if (id){
+         setVideoId(id);
+      if(isHost){
+        console.log('emmiting video to room: ,' ,roomCode,id)
+        socket.emit('video-url',{room:roomCode,videoId:id})
+      }
+      }
     }
-    if(roomCode){
-      socket.emit('join_room',roomCode)
+  
+  }, [url]);
+
+useEffect(() => {
+  socket.on("load-video", (receivedVideoId) => {
+    console.log("📥 Received videoId from host:", receivedVideoId);
+    setVideoId(receivedVideoId);
+  });
+
+  return () => {
+    socket.off("load-video");
+  };
+}, []);
+
+
+
+  // Handlers
+  const copyRoomCode = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(roomCode);
+    toast.success('Room code copied');
+  };
+
+  const toggleMic = () => setMicOn((prev) => !prev);
+  const toggleVideo = () => setVideoOn((prev) => !prev);
+
+  const handleExit = async () => {
+    try {
+
+    localStorage.removeItem("name");
+    localStorage.removeItem("url");
+    localStorage.removeItem("isHost");
+    localStorage.removeItem("roomCode");
+
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/exit`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (res.ok) navigate("/welcome");
+      else console.error("Failed to exit room");
+    } catch (err) {
+      console.error(err);
     }
-    socket.on("receive_message",(data)=>{
-      setMessages((prev) =>[...prev, data]);
+  };
+
+  const sendMessage = () => {
+    if (message.trim() !== "") {
+      const data = {
+        room: roomCode,
+        author: user.name,
+        message,
+        time: new Date().toLocaleTimeString(),
+      };
+     import('../socket/socket').then(({ default: socket }) =>{   
+      socket.emit("send_message", data);
+      setMessage("");
     })
-return()=>{
-  socket.off('receive_message')
-};
-    
-  
-
-  }, [url ,roomCode ,messages]);
-
-
-  
-
-   const[micOn,setMicOn] = useState(true);
-    const[videoOn,setVideoOn] = useState(true);
-
-    const copy =(e) =>{
-        e.preventDefault();
-        navigator.clipboard.writeText(roomCode);
-        toast.success('Room code copied')
-    };
-
-    const toggleMic = () => {
-        setMicOn(!micOn);
-    };
-
-    const toggleVideo = () => {
-        setVideoOn(!videoOn);
-    };
- 
-
-    //rome code
-                  
-    const handleExit = async () => {
-  try {
-    const res = await fetch("http://localhost:8000/exit", {
-      method: "POST",
-      credentials: "include",
-    });
-    if (res.ok) {
-      navigate("/welcome");
-    } else {
-      console.error("Failed to exit room");
-    }
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-//send message
-
-const sendMessage = () => {
-
-  if (message.trim() !== "") {
-    const data = {
-      room: roomCode,
-      author: user.name,  // later replace with actual username
-      message,
-      time: new Date().toLocaleTimeString(),
-    };
-    socket.emit("send_message", data);
-     // show instantly
-    setMessage("");
-  }
-};
+  };
+  };
   const handleEmojiClick = (emojiObject) => {
     setMessage((prev) => prev + emojiObject.emoji);
     setShowEmoji(false);
@@ -149,7 +158,7 @@ const sendMessage = () => {
             <p className='text-zinc-400'>Room Code :
                 <a href="#" > {roomCode || "failed"}</a> 
                 <FaRegClone className='inline ml-2 mb-2 
-                cursor-pointer text-blue-400' onClick={copy} />
+                cursor-pointer text-blue-400' onClick={copyRoomCode} />
             </p>
             </div>
           </div>  
@@ -186,15 +195,10 @@ const sendMessage = () => {
         <div className='  w-250 '>
             {/* Video Player Section */}
 
-           <iframe width="560" height="315" 
-         src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
-            title="YouTube video player" 
-            className='w-full h-full' 
-            frameborder="0" 
-            allow="accelerometer; autoplay;
-             clipboard-write; encrypted-media; gyroscope;"
-             referrerpolicy="strict-origin-when-cross-origin" 
-             allowFullScreen></iframe>
+
+{videoId && (
+  <YoutubePlayer key={videoId} videoId={videoId} isHost={isHost} roomCode={roomCode} />
+)}
 {/* 
               <YoutubePlayer videoId={videoId} isHost={isHost} /> */}
            

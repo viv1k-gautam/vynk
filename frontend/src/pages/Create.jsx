@@ -37,11 +37,12 @@ const Create = () => {
 
       const data =await res.json();
       if(data.success){
-        navigate('/stream',{
+        navigate(`/stream/${data.code}`,{
           state:{
             name:partyName,
             url:videoUrl,
             roomCode:data.code,
+            isHost:true
           },
         })
       }else{
@@ -52,12 +53,6 @@ const Create = () => {
       toast.error('server error')
     }
 
-    // navigate('/stream', {
-    //   state: {
-    //     name: partyName,
-    //     url: videoUrl,
-    //   }
-    // });
   };
 
 

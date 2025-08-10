@@ -22,9 +22,15 @@ const handleJoin = async() => {
         roomCode :trimmedCode
       })
       if(res.data.exists){
-     
-            navigate('/stream', 
-              { state: { roomCode: trimmedCode , roomName:res.data.room.roomName} ,
+        
+    //  const trimmedCode = code.trim().toUpperCase();
+            navigate(`/stream/${trimmedCode}`, 
+              { state: { 
+                roomCode: trimmedCode ,
+                 roomName:res.data.room.roomName,
+                 videoId :res.data.room.videoId,
+                 isHost :false
+                } ,
             });
           
       } else{

@@ -32,7 +32,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-  if(req.session.use){
+  if(req.session.user){
     res.json(req.session.user);
   }else{
     res.status(401).json({ error: 'not logged in' });

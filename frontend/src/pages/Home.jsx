@@ -40,20 +40,20 @@ const Home = () => {
         </div>
 
       </div>
-      <h2 class="text-3xl font-bold text-center mt-10 mb-12 text-white">How It Works</h2>
+      <h2 className="text-3xl font-bold text-center mt-10 mb-12 text-white">How It Works</h2>
       <div><div className=' text-white w-full h-50 flex justify-center-safe items-center gap-20'>
 
     <div className='w-80 h-50 bg-zinc-700 rounded-2xl  '>
 
-        <div class="flex justify-center mt-2 mb-4">
-        <div class="bg-gray-700 p-4 rounded-full">
-          <svg class=" w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <div className="flex justify-center mt-2 mb-4">
+        <div className="bg-gray-700 p-4 rounded-full">
+          <svg className=" w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M4 2v20l18-10L4 2z"/>
           </svg>
         </div>
       </div>
-       <h3 class="text-xl text-center font-semibold mb-2">Choose Your Content</h3>
-      <p class="text-sm text-center text-gray-400 ">
+       <h3 className="text-xl text-center font-semibold mb-2">Choose Your Content</h3>
+      <p className="text-sm text-center text-gray-400 ">
         Select from YouTube, Netflix, Disney+, and more. Our platform supports all major streaming services.
       </p>
     </div>
@@ -61,29 +61,29 @@ const Home = () => {
 
     <div className='w-80 h-50 bg-zinc-700  rounded-2xl'>
 
-        <div class="flex justify-center mt-2 mb-4">
-        <div class="bg-gray-700 p-4 rounded-full">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <div className="flex justify-center mt-2 mb-4">
+        <div className="bg-gray-700 p-4 rounded-full">
+          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05C15.57 13.36 17 14.4 17 15.5V19h5v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
           </svg>
         </div>
       </div>
-      <h3 class="text-xl text-center font-semibold mb-2">Invite Friends</h3>
-      <p class="text-sm text-center text-gray-400">
+      <h3 className="text-xl text-center font-semibold mb-2">Invite Friends</h3>
+      <p className="text-sm text-center text-gray-400">
         Generate a room code or link and share it with friends. They can join instantly from anywhere.
       </p>
     </div>
 
     <div className='w-80 h-50 bg-zinc-700  rounded-2xl'>
-          <div class="flex justify-center mt-2 mb-4">
-        <div class="bg-gray-700 p-4 rounded-full">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M10 8v8l6-4-6-4z"/><circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/>
+          <div className="flex justify-center mt-2 mb-4">
+        <div className="bg-gray-700 p-4 rounded-full">
+          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 8v8l6-4-6-4z"/><circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" fill="none"/>
           </svg>
         </div>
       </div>
-      <h3 class="text-xl text-center font-semibold mb-2">Watch & React</h3>
-      <p class="text-sm  text-center text-gray-400">
+      <h3 className="text-xl text-center font-semibold mb-2">Watch & React</h3>
+      <p className="text-sm  text-center text-gray-400">
         See friends' reactions in real-time via video call while chatting and enjoying perfectly synchronized content.
       </p>
     </div>

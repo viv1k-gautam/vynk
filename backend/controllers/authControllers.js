@@ -167,9 +167,9 @@ const roomCodeget = async (req, res) => {
     });
    
     
-res.json({success:true,code});
+res.json({success:true,code,roomCode:code});
 
-      res.json({ roomCode: code });
+      // res.json({ roomCode: code });
 
   } catch (error) {
     console.error("Error generating room code:", error);
@@ -213,7 +213,20 @@ const checkRoomCode =async(req,res) =>{
       return res.json({exists:false});
 
     }
-    return res.json({exists:true,room});
+      // 🔽 Extract videoId from URL
+    const url = new URL(room.url);
+    let videoId = null;
+    if (url.hostname.includes('youtu.be')) {
+      videoId = url.pathname.slice(1);
+    } else if (url.hostname.includes('youtube.com')) {
+      videoId = url.searchParams.get('v');
+    }
+
+    return res.json({
+      exists:true,
+      room:{
+       videoId,  
+      }});
   }
   catch(error){
     console.error("check room code error",error);
