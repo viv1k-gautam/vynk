@@ -20,7 +20,7 @@ const Create = () => {
     if(!videoUrl) return toast.error('Please enter a video URL ');
 
     try {
-      const res =await fetch('http://localhost:8000/create',{
+      const res =await fetch('https://vynk-backend.onrender.com/create',{
         method:"POST",
         headers:{
          "Content-Type":"application/json",
