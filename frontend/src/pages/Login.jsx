@@ -21,6 +21,7 @@ function Login() {
         email, 
         password
       }
+                   { withCredentials: true }                         
     );
       if (res.data.error){
         toast.error(res.data.error)
@@ -28,7 +29,7 @@ function Login() {
       else{
         setData({ email: "", password: "" }); 
           toast.success("Login successful");
-          localStorage.setItem("token", res.data.token);
+          
           navigate("/welcome");
 
         }
