@@ -117,6 +117,9 @@ useEffect(() => {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/exit`, {
         method: "POST",
         credentials: "include",
+        headers:  "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`,   
+  },
       });
       if (res.ok) navigate("/welcome");
       else console.error("Failed to exit room");
