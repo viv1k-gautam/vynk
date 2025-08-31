@@ -80,7 +80,12 @@ const loginUser = async (req, res) => {
       jwt.sign({email: user.email, id: user._id, name:user.name},process.env.JWT_SECRET, {},(err,token)=>{
         if(err)
           throw err;
-          res.cookie('token', token).json(user)
+          res.cookie('token', token,{
+              httpOnly:true,
+              secure:true,
+              sameSite:"None",
+              maxAge:24*60*60*1000}
+                    ).json(user)
         })
         }
         if(!match){
@@ -126,7 +131,11 @@ const logoutUser = async (req, res) => {
 // }
 
 
-  res.clearCookie('token'); // Clear the token cookie
+  res.clearCookie('token',{
+     httpOnly: true,
+  secure: true,
+  sameSite: "None"
+} ); // Clear the token cookie
   res.status(200).json({ message: 'Logout successful' });
 };
 
