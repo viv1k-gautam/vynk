@@ -4,6 +4,7 @@ const router = express.Router()
 const cors = require('cors');
 const { test, registerUser, loginUser, getProfile,
     logoutUser,roomCodeget,exitRoom ,checkRoomCode} = require('../controllers/authControllers')
+const requireAuth =require("../middleware/requireAuth");
 
 
 
@@ -21,7 +22,7 @@ router.post('/register',registerUser)
 router.post('/login', loginUser)
 router.get('/profile',getProfile)
 router.get('/logout' , logoutUser)
-router.post('/create' ,roomCodeget)
+router.post('/create' ,requireAuth,roomCodeget)
 router.post('/exit', exitRoom)
 router.post('/check-room',checkRoomCode)
 
