@@ -57,9 +57,9 @@ const App = () => {
 </ProtectedRoute>
         } />
       <Route path='/create' element={
-       
+         <ProtectedRoute>
           <Create />
-          
+         </ProtectedRoute>
         }/>
 
       
