@@ -12,7 +12,7 @@ export default defineConfig({
   
    server :{
       proxy:{
-        '/profile': 'http://localhost:8000'
+        '/profile': 'https://vynk-backend.onrender.com'
       }
     }
 })
