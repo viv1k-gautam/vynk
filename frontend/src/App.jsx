@@ -17,7 +17,7 @@ import JoinRoom from './pages/JoinRoom';
 
 
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'https://vynk-backend.onrender.com';
 axios.defaults.withCredentials = true;
 
 
