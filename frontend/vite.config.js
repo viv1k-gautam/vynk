@@ -8,6 +8,8 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss(),
   ],
+
+  
    server :{
       proxy:{
         '/profile': 'http://localhost:8000'

@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className='bg-zinc-800 '>
-      <div className=' w-full px-10 py-3 flex justify-between text-white bg-zinc-700 items-center'>
+    <div className='bg-black'>
+      <div className=' w-full px-10 py-3 flex justify-between text-white bg-zinc-700 items-center '>
         <div className='flex items-center'>
             <img className='h-9 w-9 items-center' src="./public/Frame.png" alt="" />
             <a className='px-2 text-2xl font-semibold' href="">Vynk</a>
         </div>
         <div className='flex gap-10 items-center'>
             
-            <a href="#">Profile</a>
+            <a href="/welcome">Profile</a>
             <a className='text-blue-200' href='/login'>Login</a>
             <a className='px-3 py-2 bg-amber-300 rounded-lg' href="/register">Sign up</a>
 
@@ -19,13 +19,15 @@ const Home = () => {
     
       </div>
 
-      <div className='w-190 h-130 object-cover flex '>
-        <img className='w-full h-full'  src="https://cdn.pixabay.com/photo/2022/02/21/06/56/couple-7025924_1280.jpg" alt=""  />
-        <img className='w-full h-full' src="https://cdn.pixabay.com/photo/2022/02/21/07/00/couple-7025933_1280.jpg" alt="" />
-        <div className='absolute top-20 left-0 w-150 h-5  opacity-100 flex flex-col justify-start py-50 item-start text-white px-10 '>
+      <div className=' object-cover flex '>
+        <img className='w-full h-full opacity-65'  src="home.jpg" alt=""  />
+        {/* <img className='w-full h-full' src="https://cdn.pixabay.com/photo/2022/02/21/07/00/couple-7025933_1280.jpg" alt="" /> */}
+        <div className='absolute top-10 left-10 w-250 h-5  opacity-100 flex flex-col justify-start py-50 item-start text-white px-10 '>
 
-        <h1 className='text-5xl font-bold mb-4 max-w-xl'>Watch Together, Miles Apartk</h1>
-        <p className='text-lg max-w-xl mt-3'>Synchronize your streaming experience with friends and family. Share reactions, chat, and enjoy content together in perfect sync, no matter where you are.</p>
+        <h1 className='text-8xl font-bold mb-4 max-w-9xl'>Watch Together,  <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-300 bg-clip-text text-transparent">
+    Miles Apart
+  </span></h1>
+        <p className='text-lg max-w-xl mt-3 py-10'>Synchronize your streaming experience with friends and family. Share reactions, chat, and enjoy content together in perfect sync, no matter where you are.</p>
 
         <div className="mt-10 flex gap-4">
         
@@ -43,12 +45,16 @@ const Home = () => {
       <h2 className="text-3xl font-bold text-center mt-10 mb-12 text-white">How It Works</h2>
       <div><div className=' text-white w-full h-50 flex justify-center-safe items-center gap-20'>
 
-    <div className='w-80 h-50 bg-zinc-700 rounded-2xl  '>
+<div className='w-80 h-50 bg-zinc-700 rounded-2xl backdrop-blur-lg 
+shadow-lg transition 
+duration-400 hover:shadow-[0_0_20px_#ec4899,0_0_40px_#8b5cf6,0_0_60px_#3b82f6]'>
+
+
 
         <div className="flex justify-center mt-2 mb-4">
         <div className="bg-gray-700 p-4 rounded-full">
           <svg className=" w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M4 2v20l18-10L4 2z"/>
+            <path d="M4 2v20l18-10L4 2ds"/>
           </svg>
         </div>
       </div>
@@ -59,7 +65,7 @@ const Home = () => {
     </div>
 
 
-    <div className='w-80 h-50 bg-zinc-700  rounded-2xl'>
+    <div className='w-80 h-50 bg-zinc-700  rounded-2xl  hover:shadow-[0_0_20px_#ec4899,0_0_40px_#8b5cf6,0_0_60px_#3b82f6]'>
 
         <div className="flex justify-center mt-2 mb-4">
         <div className="bg-gray-700 p-4 rounded-full">
@@ -74,7 +80,7 @@ const Home = () => {
       </p>
     </div>
 
-    <div className='w-80 h-50 bg-zinc-700  rounded-2xl'>
+    <div className='w-80 h-50 bg-zinc-700  rounded-2xl hover:shadow-[0_0_20px_#ec4899,0_0_40px_#8b5cf6,0_0_60px_#3b82f6]'>
           <div className="flex justify-center mt-2 mb-4">
         <div className="bg-gray-700 p-4 rounded-full">
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">

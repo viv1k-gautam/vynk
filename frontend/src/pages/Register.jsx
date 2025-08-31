@@ -30,7 +30,7 @@ export default function Register() {
         toast.error(data.error);
       }
       else {
-        setData({})
+        setData({name:'',email: '', password:''})
         toast.success("Registration successful");
         navigate("/welcome");
       }
@@ -52,10 +52,13 @@ export default function Register() {
                id="name"  type="text" name='name' placeholder='name' value={data.name} onChange={(e)=>setData({...data,name:e.target.value})}/>
 
                <input className='border-2 rounded-2xl block mb-4 w-full px-3 py-2 hover:border-blue-300'
-               id='email' type="email" name='email' placeholder='email' value={data.email} onChange={(e)=>setData({...data,email:e.target.value})}/>
+               id='email' type="email" name='email' placeholder='email' value={data.email} onChange={(e)=>setData({...data,email:e.target.value})}
+               autoComplete='new-email'/>
 
                <input className='border-2 rounded-2xl block mt-2 w-full px-3 py-2'
-               id='password' type="password" name='password' placeholder='password' value={data.password} onChange={(e)=>setData({...data,password:e.target.value})}/>
+               id='password' type="password" name='password' placeholder='password' value={data.password} 
+               onChange={(e)=>setData({...data,password:e.target.value})}
+               autoComplete='new-password'/>
 
                <a href="#" className="mt-2 inline-block font-semibold text-zinc-300">Forgot password ?</a> 
 

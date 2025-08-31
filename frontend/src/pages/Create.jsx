@@ -37,6 +37,7 @@ const Create = () => {
 
       const data =await res.json();
       if(data.success){
+        toast.success('created Successfully')
         navigate(`/stream/${data.code}`,{
           state:{
             name:partyName,
@@ -44,6 +45,7 @@ const Create = () => {
             roomCode:data.code,
             isHost:true
           },
+          
         })
       }else{
         toast.error('failed to create');

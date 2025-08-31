@@ -2,6 +2,7 @@ import { FaDoorOpen } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
+
 import toast from 'react-hot-toast';
 const JoinRoom = () => {
 
@@ -29,7 +30,8 @@ const handleJoin = async() => {
                 roomCode: trimmedCode ,
                  roomName:res.data.room.roomName,
                  videoId :res.data.room.videoId,
-                 isHost :false
+                 isHost :false,
+               
                 } ,
             });
           
@@ -44,14 +46,16 @@ const handleJoin = async() => {
 
 
   return (
- <div className='min-h-screen bg-[#0f172a] text-white flex items-center justify-center'>
-   <div className="max-w-md w-full bg-[#1e293b] p-8 rounded-lg shadow-lg">
+ <div className='min-h-screen text-white flex items-center justify-center 
+ bg-[url(/background/bg9.jpg)] 
+ bg-cover backdrop-blur-3xl'>
+   <div className="max-w-md w-full bg-white/10 backdrop-blur-sm border border-zinc-400 p-8 rounded-3xl shadow-lg ">
   
         <h2 className="text-2xl text-center font-semibold mb-6">Join Watch Party</h2>
 
         <div className="flex flex-col items-center text-center">
           <div className="bg-[#334155] p-4 rounded-full mb-4">
-            <FaDoorOpen size={24} />
+            <FaDoorOpen size={24} className='text-white-200/50' />
           </div>
            <h3 className="text-lg font-semibold">Enter Party Code</h3>
           <p className="text-sm text-gray-400 mb-4">Enter the code shared by the party host</p>

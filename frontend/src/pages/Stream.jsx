@@ -58,8 +58,8 @@ useEffect(() => {
        console.log("EMITTING VIDEO ID:", videoId, "TO ROOM:", roomCode);
       socket.emit("video-url", { room:roomCode, videoId });
     }
-
- console.log("STREAM PAGE RENDERED:");
+ console.log("room name:",name)
+  console.log("STREAM PAGE RENDERED:");
   console.log("roomCode:", roomCode);
   console.log("videoId:", videoId);
   console.log("isHost:", isHost);
@@ -129,7 +129,7 @@ useEffect(() => {
     if (message.trim() !== "") {
       const data = {
         room: roomCode,
-        author: user.name,
+        author: user?.name ||"Gust",
         message,
         time: new Date().toLocaleTimeString(),
       };
@@ -223,8 +223,33 @@ useEffect(() => {
                </p>
             </div>
              {/* card */}
+
             <div className=' flex flex-wrap h-59 w-99 overflow-auto '>
-                <div className='bg-amber-200 h-23 w-40 m-3 mx-4 rounded-xl '></div>
+                <div className= 'relative border border-zinc-500 h-23 w-40 m-3 mx-4 rounded-xl flex items-center justify-center shadow-lg overflow-hidden '>
+               
+                  <div className='rounded-full  flex h-15 w-15  items-center justify-center  bg-cyan-500 shadow-lg shadow-cyan-1000/100 '>
+                                
+                      <span className="text-3xl text-white uppercase" > {user?.name?.[0] || "?"}  </span>
+                                                
+                  </div>
+
+     {/* Buttons - hover pe visible */}
+    <div className="absolute bottom-2 flex justify-evenly bg-zinc-600 gap-10
+    rounded-3xl overflow-auto opacity-0 hover:opacity-100 transition-opacity duration-1000 border  w-23">
+      <button className="bg-zinc-500 text-black p-1 rounded-lg shadow hover:bg-gray-200"> 
+        <FaMicrophone ></FaMicrophone>
+         </button>
+      <button className="bg-zinc-500 text-black p-1 rounded-lg shadow hover:bg-gray-200">
+        <FaVideo></FaVideo>
+      </button>
+    </div>
+
+  
+
+
+      
+
+                </div>
                 <div className='bg-amber-200 h-23 w-40 m-3 mx-4 rounded-xl '></div>
                 <div className='bg-amber-200 h-23 w-40 m-3 mx-4 rounded-xl '></div>
                 <div className='bg-amber-200 h-23 w-40 m-3 mx-4 rounded-xl '></div>
