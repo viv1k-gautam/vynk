@@ -44,11 +44,21 @@ app.get('/profile', (req, res) => {
 
 //socket
 
+const allowedOrigins = [
+  "http://localhost:5173",                   // local dev
+  "https://vynk-frontend.onrender.com"       // deployed frontend
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
 const server = http.createServer(app);
 
 const io =new Server(server,{
   cors:{
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     methods:['GET','POST'],
     credentials:true
   }

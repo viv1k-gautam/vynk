@@ -20,7 +20,7 @@ const Create = () => {
     if(!videoUrl) return toast.error('Please enter a video URL ');
 
     try {
-      const res =await fetch('http://localhost:8000/create',{
+      const res =await fetch(`${import.meta.env.VITE_API_URL}/create`,{
         method:"POST",
         headers:{
          "Content-Type":"application/json",
