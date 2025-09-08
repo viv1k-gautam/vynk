@@ -117,8 +117,10 @@ useEffect(() => {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/exit`, {
         method: "POST",
         credentials: "include",
-        headers:  "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}`,   
+        headers: {
+          "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`,  
+          
   },
       });
       if (res.ok) navigate("/welcome");
