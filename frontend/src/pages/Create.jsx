@@ -14,6 +14,7 @@ const Create = () => {
   const  [partyName, setPartyName] = useState('');
   const [ videoUrl, setVideoUrl] = useState('');
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleStart = async () => {
 
@@ -24,8 +25,9 @@ const Create = () => {
         method:"POST",
         headers:{
          "Content-Type":"application/json",
+           "Authorization": `Bearer ${token}`,
         },
-        credentials:'include',
+       // credentials:'include',
         body:JSON.stringify({
           name:partyName,
           url:videoUrl,
