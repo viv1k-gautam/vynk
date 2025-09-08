@@ -18,7 +18,7 @@ const Stream = () => {
   const { code } = useParams(); 
   const { user } = useContext(UserContext);
   const location = useLocation();
-
+   const { user, token } = useContext(UserContext);
   const navigate = useNavigate();
 
   // const { name, url, roomCode: initialCode, isHost } = location.state || {};
