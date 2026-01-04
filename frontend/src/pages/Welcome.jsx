@@ -37,7 +37,8 @@ const Welcome = () => {
 
   {/* Main Section */}
   <div className="flex flex-col items-center justify-center min-h-screen pt-20 
-  bg-[url(https://images.unsplash.com/photo-1492573637402-25691cd9eac2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-contain">
+  bg-[url(https://images.unsplash.com/photo-1492573637402-25691cd9eac2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)]
+   bg-contain">
     <h1 className="text-4xl font-bold text-white mb-3">Welcome {user?.name? user.name.charAt(0).toUpperCase() + user.name.slice(1):'Gust'}!!</h1>
     <p className="text-gray-500 mb-10 text-center max-w-xl">
       Create your own space or join existing rooms to connect with others.

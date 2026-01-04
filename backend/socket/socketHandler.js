@@ -43,6 +43,15 @@ socket.on('sync-to', ({ room, currentTime }) => {
   socket.to(room).emit('sync-to', { currentTime });
 });
 
+// Host emits
+socket.on('screen-share-started', (room) => {
+  socket.to(room).emit('screen-share-started');
+});
+
+socket.on('screen-share-stopped', (room) => {
+  socket.to(room).emit('screen-share-stopped');
+});
+
 
     socket.on('send_message', (data) => {
       io.to(data.room).emit('receive_message', data);

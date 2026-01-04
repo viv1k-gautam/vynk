@@ -1,3 +1,4 @@
 import { io } from "socket.io-client";
-const socket = io("http://localhost:8000"); // apna backend ka port
+const SOCKET_URL = import.meta.env.VITE_API_URL;
+const socket = io(SOCKET_URL); // apna backend ka port
 export default socket;

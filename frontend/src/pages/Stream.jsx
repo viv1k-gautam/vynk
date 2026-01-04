@@ -30,6 +30,9 @@ const [url, setUrl] = useState(state?.url || localStorage.getItem("url") || "");
 const [isHost, setIsHost] = useState(state?.isHost ?? JSON.parse(localStorage.getItem("isHost") || "false"));
 
 const [roomCode] = useState(state?.roomCode || code || localStorage.getItem("roomCode") || "");
+const [isScreenShare, setIsScreenShare] = useState(state?.isScreenShare || false);
+const [screenStream, setScreenStream] = useState(null);
+
 
   const [videoId, setVideoId] = useState(state?.videoId || '');
   const [message, setMessage] = useState(''); 
@@ -94,6 +97,29 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  // If this room is created for screen sharing
+  if (url === "screen-share" || isScreenShare) {
+    setIsScreenShare(true);
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+      .then((stream) => {
+        setScreenStream(stream);
+
+        const video = document.getElementById("screenVideo");
+        if (video) {
+          video.srcObject = stream;
+        }
+
+        toast.success("Screen sharing started!");
+      })
+      .catch((err) => {
+        console.error("Screen share error:", err);
+        toast.error("Screen share cancelled or failed!");
+      });
+  }
+}, [url, isScreenShare]);
+
+
 
 
   // Handlers
@@ -125,6 +151,16 @@ useEffect(() => {
     }
   };
 
+  const handleStopShare = () => {
+  if (screenStream) {
+    screenStream.getTracks().forEach(track => track.stop());
+    setScreenStream(null);
+    toast.success("Screen sharing stopped!");
+  }
+};
+
+
+
   const sendMessage = () => {
     if (message.trim() !== "") {
       const data = {
@@ -143,6 +179,9 @@ useEffect(() => {
     setMessage((prev) => prev + emojiObject.emoji);
     setShowEmoji(false);
   };
+
+
+
 
   return (
        <div className='bg-zinc-800 h-full w-full flex flex-col items-center justify-center'> 
@@ -176,6 +215,16 @@ useEffect(() => {
                             Invite
                         </button>
 
+                        {/* {isHost && isScreenShare && screenStream && ( */}
+  <button
+    onClick={handleStopShare}
+    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold  mr-5"
+  >
+    Stop Sharing
+  </button>
+{/* )} */}
+
+
                          <button className='bg-red-500 w-30 flex items-center
                          justify-between px-7 rounded-xl  font-semibold' onClick={handleExit} >
                             <FaDoorOpen size={25}/>
@@ -196,9 +245,27 @@ useEffect(() => {
             {/* Video Player Section */}
 
 
-{videoId && (
-  <YoutubePlayer key={videoId} videoId={videoId} isHost={isHost} roomCode={roomCode} />
+{/* Video Player Section */}
+{isScreenShare ? (
+  <div className="flex justify-center items-center p-4">
+    <video
+      id="screenVideo"
+      autoPlay
+      muted
+      className="rounded-2xl shadow-lg w-[900px] h-[500px] border border-zinc-600"
+    />
+  </div>
+) : (
+  videoId && (
+    <YoutubePlayer
+      key={videoId}
+      videoId={videoId}
+      isHost={isHost}
+      roomCode={roomCode}
+    />
+  )
 )}
+
 {/* 
               <YoutubePlayer videoId={videoId} isHost={isHost} /> */}
            

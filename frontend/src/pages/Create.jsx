@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 
 import { isValidYoutubeURL,extractYoutubeVideoID } from '../components/youtube/YoutubeUtils';
 
+const API_URL = import.meta.env.VITE_API_URL
 
 
 const Create = () => {
@@ -20,7 +21,7 @@ const Create = () => {
     if(!videoUrl) return toast.error('Please enter a video URL ');
 
     try {
-      const res =await fetch('http://localhost:8000/create',{
+      const res =await fetch(`${API_URL}/create`,{
         method:"POST",
         headers:{
          "Content-Type":"application/json",
@@ -56,6 +57,49 @@ const Create = () => {
     }
 
   };
+
+  const handleScreenShare = async () => {
+  try {
+
+    // Step 2: Create a room for screen share
+    const res = await fetch(`${API_URL}/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        name: partyName || "Screen Share Session",
+        url: "screen-share", // special identifier
+      }),
+    });
+
+    const data = await res.json();
+
+    // Step 3: Navigate to stream page if success
+    if (data.success) {
+      toast.success("Screen Share room created!");
+
+      navigate(`/stream/${data.code}`, {
+        state: {
+          name: partyName || "Screen Share Session",
+          url: "screen-share",
+          roomCode: data.code,
+          isHost: true,
+          isScreenShare: true, // 👈 to identify mode in Stream page
+        },
+      });
+    } else {
+      toast.error("Failed to create screen share room");
+    }
+  } catch (err) {
+    console.error("Screen share error:", err);
+    toast.error("Screen share cancelled or failed!");
+  }
+};
+
+
+
 
 
   return (
@@ -120,6 +164,9 @@ const Create = () => {
                         >
                           Start Watch Party
                         </button>
+
+                        <button  onClick={handleScreenShare} className='w-full bg-green-700 hover:bg-green-800 py-2  rounded font-semibold'
+                        > Screen Share</button>
                       </div>
 
                       <div className="w-full md:w-[320px] bg-[#1e293b]/70 p-4 rounded-lg space-y-4">

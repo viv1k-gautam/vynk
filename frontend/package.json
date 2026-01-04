@@ -15,6 +15,7 @@
     "axios": "^1.10.0",
     "bootstrap-icons": "^1.13.1",
     "emoji-picker-react": "^4.13.2",
+    "lucide-react": "^0.555.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
