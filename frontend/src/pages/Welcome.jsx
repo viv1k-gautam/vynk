@@ -76,7 +76,7 @@ const Welcome = () => {
           colleagues, or new people in active conversations.
         </p>
         <Link
-          href="/join-room"
+          to="/join-room"
           className="block mt-10 w-full text-center py-2 rounded-xl bg-gradient-to-r from-pink-500 to-red-500 text-white font-medium hover:from-pink-600 hover:to-red-600 transition-all duration-300"
         >
           Join Room
