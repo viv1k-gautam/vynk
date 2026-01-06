@@ -22,7 +22,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cors({
-  origin: "https://vynk-frontend.onrender.com",
+  origin: "https://vynk-wh91.onrender.com",
   credentials: true
 }));
 
@@ -53,7 +53,7 @@ const server = http.createServer(app);
 
 const io =new Server(server,{
   cors:{
-    origin: 'https://vynk-frontend.onrender.com',
+    origin: 'https://vynk-wh91.onrender.com',
     methods:['GET','POST'],
     credentials:true
   }
