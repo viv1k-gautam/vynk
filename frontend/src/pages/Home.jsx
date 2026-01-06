@@ -13,8 +13,8 @@ export default function Home() {
           </div>
 
           <nav className="hidden sm:flex items-center gap-6">
-            <a href="/welcome" className="hover:underline">Profile</a>
-            <a href="/login" className="text-blue-300 hover:text-blue-200">Login</a>
+            <Link to="/welcome" className="hover:underline">Profile</Link>
+            <Link to='/login' className="text-blue-300 hover:text-blue-200">Login</Link>
             <Link to="/register" className="px-3 py-2 bg-amber-400 text-black rounded-lg font-medium hover:bg-amber-300">Sign up</Link>
           </nav>
 
@@ -43,7 +43,7 @@ export default function Home() {
                 <Link to="/watching">
                   <button className="inline-flex items-center justify-center px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold">Start Watching</button>
                 </Link>
-                <Link to="/create">
+                <Link to="#">
                   <button className="inline-flex items-center justify-center px-5 py-2 rounded-md bg-white text-slate-900 hover:bg-slate-100 font-medium">Create Watch Party</button>
                 </Link>
               </div>

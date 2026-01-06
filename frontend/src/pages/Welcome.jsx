@@ -56,12 +56,12 @@ const Welcome = () => {
           Start your own room and invite others to join. Set up custom settings,
           manage participants, and lead engaging discussions.
         </p>
-        <a
-          href="/create"
+        <Link
+          to="/create"
           className="block mt-6 w-full text-center py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
         >
           Create Room
-        </a>
+        </Link>
       </div>
 
       {/* Join Room Card */}
@@ -74,12 +74,12 @@ const Welcome = () => {
           Enter a room code or browse available rooms. Connect with friends,
           colleagues, or new people in active conversations.
         </p>
-        <a
+        <Link
           href="/join-room"
           className="block mt-10 w-full text-center py-2 rounded-xl bg-gradient-to-r from-pink-500 to-red-500 text-white font-medium hover:from-pink-600 hover:to-red-600 transition-all duration-300"
         >
           Join Room
-        </a>
+        </Link>
       </div>
     </div>
 
