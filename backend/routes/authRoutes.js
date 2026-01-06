@@ -11,7 +11,7 @@ const { test, registerUser, loginUser, getProfile,
 router.use(
     cors({
         credentials: true,
-        origin: 'https://vynk-frontend.onrender.com',
+        origin: 'https://vynk-wh91.onrender.com',
     })
 );
 
