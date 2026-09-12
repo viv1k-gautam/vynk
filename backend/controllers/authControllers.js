@@ -1,4 +1,3 @@
-
 const User = require('../models/user');
 const RoomCodeModel = require('../models/roomCode');
 
@@ -57,7 +56,8 @@ try{
   return res.json(user)
 
 } catch (error) {
-   
+  console.error("Register error:", error);
+  return res.status(500).json({ error: "Something went wrong. Please try again." });
 };
 
 }
